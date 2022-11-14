@@ -10,7 +10,7 @@
     <div class="clock">
       <div class="clock-face">
         <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
+        <div class="hand minute-hand"></div>
         <div class="hand second-hand"></div>
       </div>
     </div>
@@ -59,40 +59,50 @@
     .hand {
       width: 50%;
       height: 6px;
-      background: black;
       position: absolute;
       top: 50%;
       transform-origin: 100%;
+    }
+    .hour-hand{
+      background:rgb(30, 42, 126);
+    }
+    .minute-hand{
+      background:rgb(0, 0, 0); 
+    }
+    .second-hand{
+      background:rgb(146, 42, 42); 
     }
 
   </style>
 
   <script>
-  
-    const secondHand = document.querySelector('.second-hand');
-    const minuteHand = document.querySelector('.min-hand');
-    const hourHand = document.querySelector('.hour-hand');
+    setInterval((()=>{
+      const secondHand = document.querySelector('.second-hand');
+      const minuteHand = document.querySelector('.minute-hand');
+      const hourHand = document.querySelector('.hour-hand');
 
-    function updateClock(){
-      const now = new Date();
+        function update(){
+        const now = new Date();
       
-      const seconds = now.getSeconds();
-      const secondsAngle = ((seconds/60)*360)+90;
-      secondHand.style.transform = `rotate(${secondsAngle}deg)`;
+        const seconds = now.getSeconds();
+        const secondsAngle = ((seconds/60)*360)+90;
+        secondHand.style.transform = `rotate(${secondsAngle}deg)`;
+        
+        const minutes = now.getMinutes()+seconds/60;
+        const minutesAngle = (minutes/60)*360+90;
+        minuteHand.style.transform  = `rotate(${minutesAngle}deg)`;
+        
+        const hours = now.getHours()+minutes/60;
+        const hoursAngle = (hours/12)*360+90;
+        hourHand.style.transform  = `rotate(${hoursAngle}deg)`;
+      }
 
-      
-      const minutes = now.getMinutes()+seconds/60;
-      const minutesAngle = (minutes/60)*360+90;
-      minuteHand.style.transform  = `rotate(${minutesAngle}deg)`;
-      
-      
-      const hours = now.getHours()+minutes/60;
-      const hoursAngle = (hours/12)*360+90;
-      hourHand.style.transform  = `rotate(${hoursAngle}deg)`;
-      
-    }
+      update();
+      return update;
+    })() ,1000);
+    
 
-    setInterval(updateClock,1000);
+    
   </script>
 </body>
 </html>
